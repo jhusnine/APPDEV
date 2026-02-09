@@ -1,0 +1,54 @@
+=== HTML ===
+<body>
+
+<p> BSIT 3A </p>
+
+</body>
+
+=== PHP ===
+<?php
+    echo 'BSIT ';
+    ?>
+===
+<?php
+    $Section = 'BSIT 3A';
+     echo $Section;
+?>
+
+===
+<?body>
+    include  'header.php';
+?>
+===
+<body>
+<p> Header </p>
+
+</body>
+===
+
+
+====================== EXAMPLE PHP =====================
+====FOOTER.php====
+<?php 
+     include 'FOOTER';
+
+?>
+
+====header.php====
+<body>
+    <p> Header </p>
+
+</body>
+
+====index.php====
+<?body>
+    include 'header.php';
+    include 'footer.php';
+?>
+
+====body.php====
+<body>
+    <div>header</div>>
+
+    <div>footer</div>
+</body>
