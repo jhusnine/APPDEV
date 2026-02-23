@@ -1,0 +1,222 @@
+WINDOWS R = 
+
+<body>
+    <h2>Example 1: PHP with HTML</h2>
+
+    <?php
+        $course = "BSIT"
+        echo "<p>Hello, $course!</p>"
+?>
+<body>
+
+===============
+
+<body>
+    <h2>Example 2: PHP with HTML</h2>
+<body>
+    <?php
+        $date = new DateTime();
+        echo $date->format("1");
+?>
+
+================
+
+<?php $course = "BSIT"; ?>
+
+<body>
+    <h2>Example 3: PHP with HTML</h2>
+<body>
+
+<?php echo "<h1>Hello, $course</h1>"; ?>
+
+================
+
+<body>
+    <h2>Example 4: PHP with HTML</h2>
+
+    <?php
+        $date = new DateTime();
+        echo ($date->format("1") == "Monday")
+        {
+            echo "<h1>APPDEV</h1>";
+        } ELSEIF ($DATE == "Friday")
+        {
+            echo "<h1>DBMS 2</h1>";
+        } else {
+            echo "<h1>No Scheduled Subject</h1>";
+        };
+?>
+<body>
+
+=================
+
+<?php
+    $host = "10.70.0.55";
+    $dbname = "students";
+    $username = "boot";
+    $password = "boot";
+
+    try
+    {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  	
+        echo  "Connected successfully";
+    } 
+    catch(PDOException $e)
+    {
+     die("Connection failed"); 
+    }
+?>
+
+=====================
+
+<?php
+    $host = "10.70.0.55";
+    $dbname = "students";
+    $username = "boot";
+    $password = "boot";
+
+    try
+    {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+        $sql = "SELECT 	  				   
+		    `basicinfo_id` AS `id`,
+            `basicinfo_lname` AS `Last Name`,
+            `basicinfo_fname` AS `First Name`
+	      FROM `basicinformation`";
+        $stmt = $pdo-> query($sql);
+        $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        print_r($info);
+	
+        echo  "Connected successfully";
+    } 
+    catch(PDOException $e)
+    {
+     die("Connection failed"); 
+    }
+?>
+
+
+===================
+<?php
+    $host = "10.70.0.55";
+    $dbname = "students";
+    $username = "boot";
+    $password = "boot";
+
+    try
+    {
+        $id = 5;
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+        $sql = "SELECT 	  				   
+		    `basicinfo_id` AS `id`,
+            `basicinfo_lname` AS `Last Name`,
+            `basicinfo_fname` AS `First Name`
+	       FROM `basicinformation` 
+		   WHERE `basicinfo_id` = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+Print_r($info);
+
+	
+        echo  "Connected successfully";
+    } 
+    catch(PDOException $e)
+    {
+     die("Connection failed"); 
+    }
+?>
+======================================
+
+<?php
+    $host = "10.70.0.55";
+    $dbname = "students";
+    $username = "boot";
+    $password = "boot";
+
+    try
+    {
+        $id = 5;
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+        $lname = "Mariano";
+        $fname = "Jhusnine Nicole";
+        $sql = "INSERT INTO `basicinformation`
+	            (`basicinfo_lname`, `basicinfo_fname`)
+		        VALUES
+		        (?, ?)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$lname, $fname]);
+        echo  "Insert Successful";
+
+    } 
+    catch(PDOException $e)
+    {
+     die("Connection failed"); 
+    }
+?>
+============================
+
+<?php
+    $host = "10.70.0.55";
+    $dbname = "students";
+    $username = "boot";
+    $password = "boot";
+
+    try
+    {
+        $id = 2;
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+        $lname = "Mariano";
+        $fname = "Jhusnine Nicole";
+        $sql = "UPDATE `basicinformation`
+                SET 
+                `basicinfo_lname` = ?, 
+                `basicinfo_fname` = ?
+                WHERE `basicinfo_id` = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$lname, $fname]);
+        echo  "Update Successful";
+
+    } 
+    catch(PDOException $e)
+    {
+     die("Connection failed"); 
+    }
+?>
+
+=========================================
+
+<?php
+    $host = "10.70.0.55";
+    $dbname = "students";
+    $username = "boot";
+    $password = "boot";
+
+    try
+    {
+        $id = 2;
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+        $lname = "Mariano";
+        $fname = "Jhusnine Nicole";
+        $sql = "DELETE FROM `basicinformation`
+                SET 
+                `basicinfo_lname` = ?, 
+                `basicinfo_fname` = ?
+                WHERE `basicinfo_id` = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        echo  "Delete Successful";
+        
+
+    } 
+    catch(PDOException $e)
+    {
+     die("Connection failed"); 
+    }
+?>
