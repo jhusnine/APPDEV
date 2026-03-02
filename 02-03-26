@@ -29,3 +29,52 @@ echo "Gender: " . $gender;
 <script src="script.js"></script>
 
 === EXAMPLE 2 ===
+
+=== script.js ===
+  
+fetch("fetch_user.php?id=20")
+    .then(response => response.text())
+    .then(data => {     
+        alert(data);
+    })  
+    .catch(error => 
+        alert("Error:", error)
+);
+
+=== fetch_user.php ===
+
+<?php
+    $host = "10.70.0.55";
+    $username= "boot";
+    $password = "boot";
+    $database = "students";
+    $id = $_GET["id"];
+    try 
+{
+    $pdo = new PDO("mysql:host=$host;dbname=$database", $username, $password,);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = "SELECT                     
+            `basicinfo_id` AS `id`,
+            `basicinfo_lname` AS `Last Name`,
+            `basicinfo_fname` AS `First Name`
+            FROM `basicinformation` 
+            WHERE `basicinfo_id` = ?";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$id]);
+    $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    print_r($info); 
+}
+catch(PDOException $e)
+{
+    die("Connection Failed");
+};
+?>
+
+=== index.php ===
+
+<body>
+    <p id="response"></p>
+</body>
+<script src="script.js"></script>
