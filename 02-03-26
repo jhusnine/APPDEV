@@ -1,5 +1,6 @@
 === THIS PC / Users / Sofwarela2 /xammp / htdocs / newfile ===
 
+=== EXAMPLE 1 ===
 === script.js ===
   
 <?php 
@@ -26,3 +27,5 @@ echo "Gender: " . $gender;
     <p id="response"></p>
 </body>
 <script src="script.js"></script>
+
+=== EXAMPLE 2 ===
