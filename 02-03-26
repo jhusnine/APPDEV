@@ -1,0 +1,26 @@
+=== script.js ===
+  
+<?php 
+$name = $_GET["name"];
+$gender = $_GET["gender"]; 
+ 
+echo "Name: " . $name . "<br>"; 
+echo "Gender: " . $gender;
+?>
+
+=== server.php ===
+
+<?php 
+$name = $_GET["name"];
+$gender = $_GET["gender"]; 
+ 
+echo "Name: " . $name . "<br>"; 
+echo "Gender: " . $gender;
+?>
+
+=== index.php ===
+
+<body>
+    <p id="response"></p>
+</body>
+<script src="script.js"></script>
