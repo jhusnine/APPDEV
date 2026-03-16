@@ -1,0 +1,89 @@
+=====script.js=====
+document.getElementById("btnsearchstudent").addEventListener("click", function(e){
+	const lname1 = document.getElementById("lname").value;
+	const fname1 = document.getElementById("fname").value;
+	const mname1 = document.getElementById("mname").value;
+	const sname1 = document.getElementById("sname").value;
+	const gender1 = document.getElementById("gender").value;
+	const bday1 = document.getElementById("bday").value;
+	const status1 = document.getElementById("status").value;
+    const data = {
+		lname: lname1,
+		fname: fname1,
+		mname: mname1,
+		sname: sname1,
+		gender: gender1,
+		bday: bday1,
+		status: status1
+	};
+	fetch("search_students.php", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(data)
+	})
+	.then(response => response.json())
+	.then(result => {
+		if (result.lenght > 0)
+		{
+			document.getElementById("Message").innerHTML ="FAILED";
+		} else {
+			document.getElementById("Message").innerHTML ="SUCCESS";
+
+		}
+	});
+});
+
+=====index.php=====
+<body>
+	<input type="text" id="lname">
+	<input type="text" id="fname">
+	<input type="text" id="mname">
+	<input type="text" id="sname">
+	<input type="text" id="gender">
+	<input type="text" id="bday">
+	<input type="text" id="status">
+	<button id="btnsearchstudent">INPUT</button>
+	<p id = "Message"></p>
+</body>
+<script src="script.js" ></script>
+
+
+=====search_students.php=====
+<?php
+$host = "10.70.0.55";
+$dbname = "students";
+$user = "boot";
+$password = "boot";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$data = json_decode(file_get_contents("php://input"), true);
+	$lname1 = $data['lname'];
+	$fname1 = $data['fname'];
+	$mname1 = $data['mname'];
+	$sname1 = $data['sname'];
+	$gender1 = $data['gender'];
+	$bday1 = $data['bday'];
+	$status1 = $data['status'];
+	$sql = "INSERT INTO `basicinformation`( 
+	`basicinfo_lname`,
+	`basicinfo_fname`,
+	`basicinfo_mname`,
+	`basicinfo_sname`,
+	`basicinfo_gender`,
+	`basicinfo_bday`,
+	`basicinfo_status`)
+	VALUES(?,?,?,?,?,?,?);
+	SELECT 'SUCCESS';";
+
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute([$lname1,$fname1,$mname1,$sname1,$gender1,$bday1,$status1]);
+	$student = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	echo json_encode($student);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+?>
