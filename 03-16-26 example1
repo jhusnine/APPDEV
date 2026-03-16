@@ -1,0 +1,74 @@
+=====script.js=====
+document.getElementById("btnsearchstudent").addEventListener("click", function(e){
+	const username1 = document.getElementById("username").value;
+	const password1 = document.getElementById("password").value;
+	const isactive1 = document.getElementById("isactive").value;
+	const infoid1 = document.getElementById("infoid").value;
+    const data = {
+		username: username1,
+		password: password1,
+		isactive: isactive1,
+		infoid: infoid1
+	};
+	fetch("search_students.php", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(data)
+	})
+	.then(response => response.json())
+	.then(result => {
+		if (result.lenght > 0)
+		{
+			document.getElementById("Message").innerHTML ="SUCCESS";
+		} else {
+			document.getElementById("Message").innerHTML ="FAILED";
+
+		}
+	});
+});
+
+=====index.php=====
+<body>
+	<input type="text" id="username">
+	<input type="text" id="password">
+	<input type="text" id="isactive">
+	<input type="text" id="infoid">
+	<button id="btnsearchstudent">Name</button>
+	<p id = "Message"></p>
+</body>
+<script src="script.js" ></script>
+
+
+=====search_students.php=====
+<?php
+$host = "10.70.0.55";
+$dbname = "students";
+$user = "boot";
+$password = "boot";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$data = json_decode(file_get_contents("php://input"), true);
+	$username1 = $data['username'];
+	$password1 = $data['password'];
+	$isactive1 = $data['isactive'];
+	$infoid1 = $data['infoid'];
+	$sql = "INSERT INTO `credential`( 
+	`cre_username`,
+	`cre_password`,
+	`cre_isactive`,
+	`basicinfo_id`)
+	VALUES(?,?,?,?);
+	SELECT 'SUCCESS';";
+
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute([$username1,$password1,$isactive1,$infoid1]);
+	$student = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	echo json_encode($student);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+?>
